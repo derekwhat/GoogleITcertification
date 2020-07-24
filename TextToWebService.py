@@ -7,27 +7,37 @@ using requests
 import os
 import requests
 
-fields = "title name date feedback".split()
-src = r"/data/feedback"
+# fields = "title name date feedback".split()
+# src = r"/data/feedback"
+# site = r"http://<corpweb-external-IP>/feedback"
 
-def ProcessReviews(src):
+
+def ProcessReviews(src, fields):
     files = os.listdir(src)
     reviews = []
     for file in files:
         #get content of review
         with open(file, 'r') as f:
-            f.readlines()
+            lines = [line.rstip() for line in f.readlines()]
 
-            #populate dictionary
-            review = {field: line for line in f for field in fields}
+            # populate dictionary
+            review = {field: line for line in lines for field in fields}
             print("review: {}".format(review))
             reviews.append(review)
+            f.close()
+    return reviews
 
-    #return a list of dictionaries of parsed reviews
-    #
 
 def UploadReviews(dictOfReviews, site):
     for review in dictOfReviews:
         # convert to Json??
 
         response = requests.post(site, data=review)
+        response.raise_for_status()
+
+
+if "__name__" == "__main__":
+    fields = "title name date feedback".split()
+    src = r"/data/feedback"
+    site = r"http://<corpweb-external-IP>/feedback"
+    UploadReviews(ProcessReviews(src, fields), site)
