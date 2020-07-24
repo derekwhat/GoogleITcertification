@@ -1,3 +1,4 @@
+#! usr/bin/env python3
 """
 As part of the final course of the Google IT certification
 Scale and convert images using PIL
