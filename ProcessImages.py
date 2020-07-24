@@ -12,7 +12,7 @@ print("running file now")
 fileformat = ".jpeg"
 
 
-def fixImage(folder, dest, fileformat):
+def FixImage(folder, dest, fileformat):
     """changes all images within a folder of images, no subdirectories"""
     images = []
     for dirpath, __, files in os.walk(folder):
@@ -35,13 +35,14 @@ def fixImage(folder, dest, fileformat):
             .resize((720, 720))
             .convert('RGB')
             .save(dest_path, fileformat))
+        print("Done processing pictures")
 
 
-fixImage(path, dest, fileformat)
+FixImage(path, dest, fileformat)
 ## not sure why this did not work
 if "__name__" == "__main__":
     path = r"/images"
     dest = r"/opt/icons/"
     fileformat = ".jpeg"
-    print("running file now")
-    fixImage(path, dest, fileformat)
+    print("Processing pictures now")
+    FixImage(path, dest, fileformat)
