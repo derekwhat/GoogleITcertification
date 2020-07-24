@@ -1,3 +1,4 @@
+#! usr/bin/env python3
 """
 As part of the final course of the Google IT certification
 Scale and convert images using PIL
@@ -44,25 +45,3 @@ if "__name__" == "__main__":
     fileformat = ".jpeg"
     print("running file now")
     fixImage(path, dest, fileformat)
-
-# student-00-afbf940b937e@35.193.243.52
-
-
-print("running now")
-for dirpath, __, files in os.walk(path):
-    # build out the full path to the image
-    print(dirpath)
-    print(files)
-    print("------")
-    images = [[os.path.join(path, f), f] for f in files]
-for file in images:
-    # check properties of image
-    img = Image.open(file[0])
-    print("source: {}".format(file[0]))
-    print("file format: {}  file size: {}".format(img.format, img.size))
-    # change properties of image
-    name = file[1]
-    name = name[:name.find(".")]
-    dest_path = os.path.join(dest, name+fileformat)
-    print("destination: {}".format(dest_path))
-    img.rotate(270).resize((720, 720)).save(dest_path)
