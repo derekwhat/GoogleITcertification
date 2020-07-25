@@ -1,5 +1,7 @@
 """ Part One of final assignment, reformat pictures"""
 
+# code is based on earlier submitted ProcessImages.py
+
 #!/usr/bin/env python3
 
 import os
