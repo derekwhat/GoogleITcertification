@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+""" Week 3 Assignment: Process Data and Email Info"""
+
+# filled in code related to max_sales and car_year_sales
 
 import json
 import locale
@@ -8,9 +10,9 @@ import operator
 import reports
 import emails
 
-# student-04-318483720546@34.68.83.173
+
 # needed to do: export LC_ALL="en_US.UTF-8" in bash for this to work
-# from "/car_sales.json"
+
 def load_data(filename):
     """Loads the contents of filename as a JSON file."""
     with open(filename) as json_file:
@@ -30,6 +32,7 @@ def process_data(data):
     """
     locale.setlocale(locale.LC_ALL, 'en_US.UTF8')
     max_revenue = {"revenue": 0}
+    # addes the following two initializers
     max_sales = {"total_sales": 0}
     car_year_sales = {}
 
@@ -55,15 +58,18 @@ def process_data(data):
             item["revenue"] = item_revenue
             max_revenue = item
 
-        # TODO: also handle max sales
+        # ADDED: also handle max sales
         if item["total_sales"] > max_sales["total_sales"]:
             max_sales = item
 
-        # TODO: also handle most popular car_year
+        # ADDED: also handle most popular car_year
         car_year = item["car"]["car_year"]
         car_year_sales[car_year] = car_year_sales.get(car_year, 0) + item["total_sales"]
 
-    popular_yr = sorted(car_year_sales.items(), key=operator.itemgetter(1), reverse = True)[0]
+    # ADDED: popular_yr, and summary's text (apart from first sentence)
+    popular_yr = sorted(car_year_sales.items(),
+                        key=operator.itemgetter(1),
+                        reverse=True)[0]
     summary = [
             "The {} generated the most revenue: ${}".format(
              format_car(max_revenue["car"]), max_revenue["revenue"]),
@@ -89,17 +95,17 @@ def main(argv):
     data = load_data("/car_sales.json")
     summary = process_data(data)
     print(summary)
-    # TODO: turn this into a PDF report
+    # ADDED: turn this into a PDF report
     pdfPath = "/tmp/cars.pdf"
     title = "Car Sales Report"
     additional_info = "<br/>".join(summary)
     table_data = cars_dict_to_table(data)
     reports.generate(pdfPath, title, additional_info, table_data)
 
-    # TODO: send the PDF report as an email attachment
+    # ADDED: send the PDF report as an email attachment
     sender = "automation@example.com"
-    recipient = "{}@example.com".format(os.environ.get('USER'))
-    # recipient = "student-04-1fe118a9f549@example.com"
+    user = os.environ.get('USER')
+    recipient = "{}@example.com".format(user)
     subject = "Sales summary for last month"
     body = "\n".join(summary)
     attachment_path = pdfPath
