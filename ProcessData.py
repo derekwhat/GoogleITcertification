@@ -8,6 +8,7 @@ import operator
 import reports
 import emails
 
+# student-04-318483720546@34.68.83.173
 # needed to do: export LC_ALL="en_US.UTF-8" in bash for this to work
 # from "/car_sales.json"
 def load_data(filename):
